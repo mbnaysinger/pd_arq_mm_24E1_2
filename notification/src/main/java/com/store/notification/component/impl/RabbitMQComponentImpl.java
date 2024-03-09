@@ -30,14 +30,13 @@ public class RabbitMQComponentImpl implements RabbitMQComponent {
 
 	@RabbitListener(queues = "order_notification")
 	public void handleMessage(String message) {
+		System.out.println("obj: " + message);
 		Map<String, Object> obj = emailServiceImpl.convertToObject(message);
 
 		int user_id = (int) obj.get("user_id");
 		List<Map<String, Object>> orderItems = (List<Map<String, Object>>) obj.get("orderItems");
 
-		// TODO: pegar todos os product_ids do carrinho e adicionar em uma lista para
-		// então buscar o nome de cada um. Nesse exemplo usarei apenas 1 product_id
-		// sendo o primeiro do array apenas para ilustrar funcionamento
+		// TODO: pega os produtos do carrinho e add no array para buscar o nome
 		List<Integer> productIds = new ArrayList<>();
 		for (Map<String, Object> orderItem : orderItems) {
 			int productId = (int) orderItem.get("product_id");
@@ -66,9 +65,9 @@ public class RabbitMQComponentImpl implements RabbitMQComponent {
 
 		// TODO: pegar o nome do user no pagamento (criar no microsserviço de payment).
 
-		String content = emailServiceImpl.constructPaymentContent("Fulaninho", paymentId);
+		String content = emailServiceImpl.constructPaymentContent("Maike Naysinger Borges", paymentId);
 
-		emailServiceImpl.sendEmail(content, "wanderson.leite@al.infnet.edu.br", "Notificação de Payment");
+		emailServiceImpl.sendEmail(content, "maike.borges@al.infnet.edu.br", "Notificação de Pagamento");
 	}
 
 	private String retrieveProduct(int product_id) {

@@ -1,2 +1,2 @@
-INSERT INTO "user" (name, username, email, password, role, company_id) VALUES ('Wando Vendedor', 'maike.borges', 'maike.borges@gmail.com', 'maike123', 1, 1);
-INSERT INTO "user" (name, username, email, password, role, company_id) VALUES ('Wando Cliente', 'moara.britz', 'maike.borges@al.infnet.edu.br', 'maike123', 1, NULL);
+INSERT INTO "user" (name, username, email, password, role, company_id) VALUES ('Maike Vendedor', 'maike.borges', 'maike.borges@gmail.com', 'maike123', 1, 1);
+INSERT INTO "user" (name, username, email, password, role, company_id) VALUES ('Moara Cliente', 'moara.britz', 'maike.borges@al.infnet.edu.br', 'maike123', 1, NULL);

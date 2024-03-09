@@ -44,7 +44,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order, Long, OrderRepos
 
 	@Override
 	public void save(Order order) {
-		// Busca dados do usuário que fez a compra e faz a notificação do pedido fechado
+		// Busca dados do usuário que realizou a compra e notifica o fechamento do pedido
 		this.webClient.get().uri("/user/" + String.valueOf(order.getUser_id())).accept(MediaType.APPLICATION_JSON)
 				.exchangeToMono(response -> {
 					if (response.statusCode().equals(HttpStatus.OK)) {
@@ -61,21 +61,19 @@ public class OrderServiceImpl extends GenericServiceImpl<Order, Long, OrderRepos
 						this.sendNotification(ord);
 						return response.toEntity(String.class);
 					} else if (response.statusCode().equals(HttpStatus.NOT_FOUND)) {
-						System.out.println("Não há usuário com esse ID");
+						System.out.println("User not found");
 						return response.toEntity(String.class);
 					} else {
 						return response.createError();
 					}
 				}).block();
-		// Chama o serviço de pagamento via http e notifica o usuário que o pagamento
-		// foi realizado
-		String jsonBody = "{\"paymentSystem\": \"Visa\", \"installments\": 1, \"paymentValue\": 77.77}";
+
+		//notifica pagamento via http
+		String jsonBody = "{\"paymentSystem\": \"Mastercard\", \"installments\": 1, \"paymentValue\": 4500.00}";
 
 		this.webClientPayment.post().uri("/payment").contentType(MediaType.APPLICATION_JSON)
 				.body(BodyInserters.fromValue(jsonBody)).retrieve().bodyToMono(String.class)
 				.subscribe(response -> System.out.println("Resposta: " + response));
-
-		// TODO: colocar uma referência no pedido para o pagamento.
 	}
 
 	public void sendNotification(Order order) {
