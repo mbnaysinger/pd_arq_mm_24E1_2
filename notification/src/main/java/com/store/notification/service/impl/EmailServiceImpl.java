@@ -42,6 +42,14 @@ public class EmailServiceImpl extends GenericServiceImpl {
 				username, paymentId);
 	}
 
+	public String constructProductContent(String prod) {
+		return MessageFormat.format("<html><body><h1>Olá Moara</h1><p>Está é uma mensagem enviada através da API de notificação de compras e-commerce do Maike. <br>Se você recebeu este e-mail, significa que " +
+						"ele está no caminho de entregar o projeto da disciplina. <br>" +
+						"Produto: {0} foi processado com sucesso, espero que aproveite-o!" +
+						"<br>Obrigado!<p></body></html>",
+				prod);
+	}
+
 	public void sendEmail(String content, String email, String subject) {
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
